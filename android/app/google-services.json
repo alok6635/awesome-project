@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "820001267317",
+    "project_id": "awesomeproject-6727c",
+    "storage_bucket": "awesomeproject-6727c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820001267317:android:2256af1afc46e158ada23c",
+        "android_client_info": {
+          "package_name": "com.awesomeproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7JuNq_h2GyW9ffwGC3VvPRTSqce2C9l0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
