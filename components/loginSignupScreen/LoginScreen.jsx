@@ -1,105 +1,135 @@
-import { StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import React, { useContext, useState } from 'react';
+import { StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
+import auth from '@react-native-firebase/auth';
+import { AuthContext } from '../../context/AuthContext';
 
 const LoginScreen = ({ navigation }) => {
-    return (
-        <View style={styles.container}>
-            <StatusBar backgroundColor={'#FF3F00'} options={{ headerShown: false }}/>
-            <View style={{ paddingVertical: 12, width: '95%', alignSelf: 'center', marginBottom: 10 }}>
-                <Text style={{ alignSelf: 'center', fontSize: 25, fontWeight: '700', }} >Login</Text>
-            </View>
+ const{userLoggedUiHandler} = useContext(AuthContext);
 
-            <View style={styles.inputCont}>
-                <TextInput placeholder='Email' keyboardType='email-address' style={styles.input} />
-            </View>
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-            <View style={styles.inputCont}>
-                <TextInput placeholder='Password' style={styles.input} />
-            </View>
+  const LoginHandler = async () => {
+    if (!email || !password) {
+      Alert.alert('Error', 'Please enter both email and password.');
+      return;
+    }
 
-            <TouchableOpacity style={styles.loginbutton}>
-                <Text style={styles.loginbuttonTxt}>Login</Text>
-            </TouchableOpacity>
+    try {
+      await auth().signInWithEmailAndPassword(email, password)
+      .then((userCredential)=>{
+        var uid = userCredential?.user.uid;
+        userLoggedUiHandler(uid)
+        Alert.alert('Success', 'You have successfully logged in!');
+        console.log("userId", uid);
+      })
+    } catch (error) {
+      console.error(error);
+      } 
+    }
 
-            <View style={styles.haveAccount}>
-                <View style={{ paddingLeft: 10 }}>
-                    <Text>Don't have any account?</Text>
-                </View>
-                <View style={{
-                    backgroundColor: '#FF3F00',
-                    borderRadius: 25,
-                    alignSelf: 'center',
-                    padding: 10,
-                    elevation: 2
-                }} >
-                    <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-                        <Text style={{
-                            fontSize: 17,
-                            fontWeight: '600',
-                            color: 'white',
-                            alignSelf: 'center',
-                            paddingHorizontal: 10
-                        }}>Sign up</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
 
-        </View>
-    );
+
+  return (
+    <View style={styles.container}>
+      <StatusBar backgroundColor="#FF3F00" barStyle="light-content" />
+
+      <View style={{ paddingVertical: 12, width: '95%', alignSelf: 'center', marginBottom: 10 }}>
+        <Text style={{ alignSelf: 'center', fontSize: 25, fontWeight: '700' }}>Login</Text>
+      </View>
+
+      <View style={styles.inputCont}>
+        <TextInput
+          placeholder="Email"
+          keyboardType="email-address"
+          style={styles.input}
+          value={email}
+          onChangeText={setEmail}
+        />
+      </View>
+
+      <View style={styles.inputCont}>
+        <TextInput
+          placeholder="Password"
+          secureTextEntry
+          style={styles.input}
+          value={password}
+          onChangeText={setPassword}
+        />
+      </View>
+
+      <TouchableOpacity style={styles.loginbutton} onPress={LoginHandler}>
+        <Text style={styles.loginbuttonTxt}>Login</Text>
+      </TouchableOpacity>
+
+      <View style={styles.haveAccount}>
+        <Text>Don't have an account?</Text>
+        <TouchableOpacity
+          style={styles.signupButton}
+          onPress={() => navigation.navigate('Signup')}>
+          <Text style={styles.signupButtonText}>Sign Up</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 };
 
 export default LoginScreen;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        // backgroundColor: 'green',
-        width: '100%'
-    },
-    inputCont: {
-        flexDirection: 'row',
-        padding: 10,
-        borderColor: 'grey',
-        borderWidth: 1,
-        borderRadius: 25,
-        marginBottom: 10,
-        width: '95%',
-        alignSelf: 'center'
-    },
-    icon: {
-        paddingHorizontal: 5
-    },
-    input: {
-        paddingLeft: 5,
-        width: '90%',
-
-        // backgroundColor: 'green'
-
-    },
-    loginbutton: {
-        backgroundColor: '#FF3F00',
-        borderRadius: 25,
-        width: '95%',
-        alignSelf: 'center',
-        padding: 10,
-        elevation: 2
-    },
-    loginbuttonTxt: {
-        fontSize: 17,
-        fontWeight: '600',
-        color: 'white',
-        alignSelf: 'center'
-    },
-    haveAccount: {
-        marginTop: 15,
-        width: '95%',
-        alignSelf: 'center',
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    }
-}
-)
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    width: '100%',
+  },
+  inputCont: {
+    flexDirection: 'row',
+    padding: 10,
+    borderColor: 'grey',
+    borderWidth: 1,
+    borderRadius: 25,
+    marginBottom: 10,
+    width: '95%',
+    alignSelf: 'center',
+  },
+  input: {
+    paddingLeft: 5,
+    width: '90%',
+  },
+  loginbutton: {
+    backgroundColor: '#FF3F00',
+    borderRadius: 25,
+    width: '95%',
+    alignSelf: 'center',
+    padding: 10,
+    elevation: 2,
+  },
+  loginbuttonTxt: {
+    fontSize: 17,
+    fontWeight: '600',
+    color: 'white',
+    alignSelf: 'center',
+  },
+  haveAccount: {
+    marginTop: 15,
+    width: '95%',
+    alignSelf: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  signupButton: {
+    backgroundColor: '#FF3F00',
+    borderRadius: 25,
+    padding: 10,
+    elevation: 2,
+  },
+  signupButtonText: {
+    fontSize: 17,
+    fontWeight: '600',
+    color: 'white',
+    alignSelf: 'center',
+  },
+});
 
 
 

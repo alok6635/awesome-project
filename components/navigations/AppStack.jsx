@@ -35,7 +35,7 @@ const App = () => {
             } else if (route.name === 'Cart') {
               iconName = 'shoppingcart';
             } else if (route.name === 'TrackOrder') {
-              iconName = 'profile'; // Icon for Track Order
+              iconName = 'profile'; 
             } else if (route.name === 'Profile') {
               iconName = 'user';
             } else if (route.name === 'Settings') {
