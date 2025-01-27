@@ -4,18 +4,21 @@ import AppStack from './AppStack';
 import { AuthContext } from '../../context/AuthContext';
 
 const AppNav = () => {
-  const {userLoggedUid,checkIsLogged} = useContext(AuthContext);
-  console.log('AppNav (UID)', userLoggedUid)
+  // const {userLoggedUid,checkIsLogged} = useContext(AuthContext);
+  // console.log('AppNav (UID)', userLoggedUid)
 
-    useEffect(()=>{
-      checkIsLogged()
-    })
+    // useEffect(()=>{
+    //   checkIsLogged()
+    // })
+    
   return (
     <>
-      {
+      {/* {
         userLoggedUid ? 
         <AppStack/> : <AuthStack/>
-      }
+      } */}
+
+      <AppStack/>
     </>
   )
 }
