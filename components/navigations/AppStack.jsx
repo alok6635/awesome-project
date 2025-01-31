@@ -1,28 +1,25 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from '../mainScreens/HomeScreen';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
-import ProductScreen from '../mainScreens/ProductScreen';
+import HomeScreen from '../mainScreens/HomeScreen';
 import UserCartScreen from '../mainScreens/UserCartScreen';
-import TrackOrderScreen from '../mainScreens/TrackOrderScreen';
 import UserProfile from '../mainScreens/UserProfile';
-import AccountAndSettings from '../mainScreens/AccountAndSettings';
+import ProductDetails from '../mainScreens/ProductDetails';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
+const App = () => {
 
-const HomeStack = () => {
-  return (
+  const HomeStack = () => (
     <Stack.Navigator>
       <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="ProductScreen" component={ProductScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="ProductDetails" component={ProductDetails} options={{ title: 'Product Details' }} />
     </Stack.Navigator>
   );
-};
 
-const App = () => {
+
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -34,26 +31,21 @@ const App = () => {
               iconName = 'home';
             } else if (route.name === 'Cart') {
               iconName = 'shoppingcart';
-            } else if (route.name === 'TrackOrder') {
-              iconName = 'profile'; 
-            } else if (route.name === 'Profile') {
+            }  else if (route.name === 'Profile') {
               iconName = 'user';
-            } else if (route.name === 'Settings') {
-              iconName = 'setting';
-            }
+            } 
             return <Icon name={iconName} size={size} color={color} />;
           },
         })}
       >
         <Tab.Screen name="Home" component={HomeStack} options={{ headerShown: false }} />
         <Tab.Screen name="Cart" component={UserCartScreen} options={{ headerShown: false }} />
-        <Tab.Screen name="TrackOrder" component={TrackOrderScreen} options={{ headerShown: false }} />
         <Tab.Screen name="Profile" component={UserProfile} options={{ headerShown: false }} />
-        <Tab.Screen name="Settings" component={AccountAndSettings} options={{ headerShown: false }} />
       </Tab.Navigator>
     </NavigationContainer>
   );
 };
+
 
 const styles = {
   tabBar: {
@@ -63,5 +55,4 @@ const styles = {
     borderTopColor: '#ccc',
   },
 };
-
 export default App;

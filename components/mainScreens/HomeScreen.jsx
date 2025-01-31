@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, View, Text, ActivityIndicator, Alert, Image, StatusBar, StyleSheet } from 'react-native';
+import { FlatList, View, Text, ActivityIndicator, Alert, Image, StatusBar, StyleSheet, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import SearchItem from './SearchItem';
 import SeachCategory from './SeachCategory';
-
+import { useNavigation } from '@react-navigation/native'; 
 
 const HomeScreen = () => {
     const [product, setProduct] = useState([]);
     const [err, setErr] = useState(null);
     const [loading, setLoading] = useState(false);
+    const navigation = useNavigation(); 
 
     const showProduct = async () => {
         setLoading(true);
@@ -27,12 +28,16 @@ const HomeScreen = () => {
         showProduct();
     }, []);
 
+    const handleProductPress = (item) => {
+        navigation.navigate('ProductDetails', { product: item });
+    };
+
     const renderProduct = ({ item }) => (
-        <View style={styles.productCard}>
+        <TouchableOpacity style={styles.productCard} onPress={() => handleProductPress(item)}>
             <Image source={{ uri: item.image }} style={styles.productImage} />
             <Text style={styles.productTitle}>{item.title}</Text>
             <Text style={styles.productPrice}>${item.price.toFixed(2)}</Text>
-        </View>
+        </TouchableOpacity>
     );
     return (
         <View style={styles.mainContainer}>
@@ -52,11 +57,6 @@ const HomeScreen = () => {
                     renderItem={renderProduct}
                 />
             )}
-            {/* prev application code */}
-            {/* <HeaderBar /> */}
-            {/* <Categories /> */}
-            {/* <OfferSlider /> */}
-            {/* <CardSlider  navigation={navigation}/> */}
         </View>
     )
 }

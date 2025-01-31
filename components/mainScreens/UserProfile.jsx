@@ -1,100 +1,125 @@
-import React from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import AntDesign from 'react-native-vector-icons/AntDesign'; 
+import React from 'react';
+import { FlatList, Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import AntDesign from "react-native-vector-icons/AntDesign";
 
 const UserProfile = () => {
+    const backGroundImg = { uri: "https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D" };
+    const ProfileImg = require('../../images/boy.png');
+
+    const data = [
+        {
+            icon: require('../../images/boy.png'),
+            fieldName: 'User Info',
+        },
+        {
+            icon: require('../../images/noti.png'),
+            fieldName: 'Notification',
+        },
+    ];
+
     return (
-        <View style={styles.container}>
-            <View style={{ backgroundColor: '#FF3F00', paddingVertical: 15, paddingHorizontal: 15, marginTop: 30 }}>
-                <Text style={{ color: 'white' }}>My Profile</Text>
-            </View>
-            <View style={styles.container_Inputfield}>
-                <AntDesign name="user" style={styles.icon} /> 
-                <TextInput
-                    style={styles.input}
-                    placeholder="Full Name"
-                    value="PNF"
-                    editable={false}
+        <>
+            <ImageBackground source={backGroundImg} resizeMode='cover' style={styles.background}>
+                <View style={styles.profileCover}>
+                    <Image source={ProfileImg} style={styles.profileImg} />
+                    <Text style={styles.profileHeading}>Demo Project </Text>
+                </View>
+                <FlatList data={data}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                        <View style={styles.listItemContent}>
+                            <View style={styles.listItem}>
+                                <Image source={item.icon} style={styles.icon} />
+                                <Text style={styles.listItemText}>{item.fieldName}</Text>
+                            </View>
+                            <TouchableOpacity>
+                                <AntDesign name={"arrowright"} size={20} />
+                            </TouchableOpacity>
+                        </View>
+                    )}
                 />
-            </View>
-
-            <View style={styles.container_Inputfield}>
-                <AntDesign name="mail" style={styles.icon} /> 
-                <TextInput
-                    style={styles.input}
-                    placeholder="Email"
-                    value="PNF@gmail.com"
-                    editable={false}
-                />
-            </View>
-
-            <View style={styles.container_Inputfield}>
-                <AntDesign name="home" style={styles.icon} />  
-                <TextInput
-                    style={styles.input}
-                    placeholder="Address"
-                    value="New  Address"
-                    editable={false}
-                />
-            </View>
-
-            <View style={styles.container_Inputfield}>
-                <AntDesign name="phone" style={styles.icon} /> 
-                <TextInput
-                    style={styles.input}
-                    placeholder="Phone"
-                    value="123457689"
-                    editable={false}
-                />
-            </View>
-
-            <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonTxt}>Edit Profile</Text>
-            </TouchableOpacity>
-        </View>
+                <View style={styles.logOut}>
+                    <TouchableOpacity>
+                        {/* <FontAwesomeIcon icon={faRightFromBracket} style={styles.logOutIcon} /> */}
+                    </TouchableOpacity>
+                    <Text style={styles.logOutText}>Logout</Text>
+                </View>
+            </ImageBackground>
+        </>
     );
 };
-
 export default UserProfile;
 
 const styles = StyleSheet.create({
-    container: {
+    background: {
         flex: 1,
-        backgroundColor: '#fff',
-    },
-    container_Inputfield: {
-        flexDirection: 'row',
-        height: 40,
-        borderColor: '#ccc',
-        borderWidth: 1,
-        borderRadius: 20,
-        paddingHorizontal: 10,
-        marginTop: 10,
-        marginHorizontal: 16,
         alignItems: 'center',
+        justifyContent: 'center',
     },
-    input: {
-        flex: 1,
+    profileCover: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 70,
+    },
+    profileImg: {
+        width: 100,
+        height: 100,
+        borderRadius: 10,
+    },
+    profileHeading: {
+        color: '#F47A26',
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginTop: 10,
+        marginBottom: 30,
         paddingLeft: 10,
+        paddingRight: 10,
+    },
+    listItemContent: {
+        flexDirection: 'row',
+        justifyContent: "space-between",
+        alignItems: 'center',
+        padding: 5,
+        backgroundColor: "#fdfdf8",
+        borderRadius: 8,
+        margin: 5,
+        marginBottom: 20,
+        width: "96%"
+    },
+    listItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 5,
+    },
+    listItemText: {
+        fontSize: 18,
+        fontWeight: "600",
+        padding: 2,
+        marginLeft: 10,
+        color: "#F47A26",
     },
     icon: {
-        fontSize: 20,
-        color: '#ccc',
+        width: 24,
+        height: 24,
+        borderRadius: 15,
+    },
+    rightIcon: {
+        width: 20,
+        height: 20,
+    },
+    logOut: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    logOutIcon: {
         marginRight: 10,
+        color: "red",
     },
-    button: {
-        backgroundColor: '#FF3F00',
-        borderRadius: 25,
-        width: '92%',
-        alignSelf: 'center',
-        padding: 10,
-        elevation: 2,
-        marginTop: 10,
-    },
-    buttonTxt: {
-        fontSize: 17,
-        fontWeight: '600',
-        color: 'white',
-        alignSelf: 'center',
-    },
+    logOutText: {
+        fontSize: 20,
+        color: "red",
+    }
 });
+

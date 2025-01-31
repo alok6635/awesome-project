@@ -4,11 +4,9 @@ import AppNav from './components/navigations/AppNav';
 import { AuthProvider } from './context/AuthContext'
 
 const App = () => {
-
      useEffect(() => {
           SplashScreen.hide();
      }, [])
-
      return (
           <AuthProvider>
                <AppNav />
